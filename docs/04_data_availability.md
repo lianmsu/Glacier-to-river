@@ -5,13 +5,16 @@ listed below so that the analyses can be re-run once the data are in place.
 
 Two things determine where a script looks for its inputs:
 
-* `GTR_DATA` — the root of your data directory (default: the original analysis root;
-  override with `Sys.setenv(GTR_DATA = "...")`). Each script `setwd()`s into the
-  sub-directory listed in the *Working directory* column, so that sub-directory must
-  exist and hold the tables named in the *Reads* column.
+* `GTR_DATA` — the root of your data directory. It defaults to the current working
+  directory (`normalizePath(Sys.getenv("GTR_DATA", unset = "."))`), so either `cd` into
+  the data root first or set the variable: `Sys.setenv(GTR_DATA = "/path/to/data")`.
+  Each script `setwd()`s into the sub-directory listed in the *Working directory*
+  column, so that sub-directory must exist and hold the tables named in the *Reads*
+  column.
 * `GTR_GW` — only used by the cross-study comparison and by
   `analyses/04_defense_islands/03_nondG_functional_annotation.R`; it points to the
-  companion aquifer/groundwater data directory.
+  companion aquifer/groundwater data directory and defaults to
+  `<GTR_DATA>/groundwater`.
 
 The directory names below are the ones used during the study, i.e. the data directory
 mirrors the working copy:

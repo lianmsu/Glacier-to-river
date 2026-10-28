@@ -6,7 +6,14 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=24
 #SBATCH --mem=250GB
-#SBATCH --reservation=lipengwei2024phd_res2
+# #SBATCH --reservation=<your-reservation>   # uncomment if your cluster requires one
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 # 开始计时
 start_time=$(date +%s)
@@ -16,11 +23,11 @@ source activate icefinder
 # Date: 17/4/2024
 #########################################################################
 
-cp -r /home/lipengwei2024phd/03GW_prokaryotes/try/ICEfinder2_linux /home/lipengwei2024phd/03GW_prokaryotes/04ICEfinder/ICEfinder2_11000
-ICE_workdir=/home/lipengwei2024phd/03GW_prokaryotes/04ICEfinder/ICEfinder2_11000
+cp -r ${HOME_ROOT}/03GW_prokaryotes/try/ICEfinder2_linux ${HOME_ROOT}/03GW_prokaryotes/04ICEfinder/ICEfinder2_11000
+ICE_workdir=${HOME_ROOT}/03GW_prokaryotes/04ICEfinder/ICEfinder2_11000
 cd ${ICE_workdir}
-id_file=/home/lipengwei2024phd/03GW_prokaryotes/04ICEfinder/all_19847MAGsid.txt
-MAG_dir=/home/lipengwei2024phd/03GW/01ANI99MAGs
+id_file=${HOME_ROOT}/03GW_prokaryotes/04ICEfinder/all_19847MAGsid.txt
+MAG_dir=${HOME_ROOT}/03GW/01ANI99MAGs
 
 start=10001
 end=11000

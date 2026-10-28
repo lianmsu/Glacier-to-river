@@ -35,12 +35,13 @@ Glacier-to-river/
 ## 如何复现
 
 **1. 上游流程**：`pipelines/` 下是当时实际投递到集群的 SLURM 作业脚本（保留 `#SBATCH`
-头），按 [docs/01_pipeline_overview.md](docs/01_pipeline_overview.md) 的顺序提交。运行时
-需要把脚本里的绝对路径、队列名改成自己集群的配置，并按
-[docs/05_software_and_environment.md](docs/05_software_and_environment.md) 建好 conda 环境。
+头），按 [docs/01_pipeline_overview.md](docs/01_pipeline_overview.md) 的顺序提交。脚本中
+与运行环境相关的绝对路径已改为变量：设置 `LUSTRE_HOME`、`HOME_ROOT`、`DB_ROOT`（见每个
+脚本 `#SBATCH` 头下方的 `# Site-specific settings` 段），改好队列名即可，conda 环境见
+[docs/05_software_and_environment.md](docs/05_software_and_environment.md)。
 
 **2. R 分析**：需要 R ≥ 4.2 及 docs/05 中列出的 R 包。脚本通过 `GTR_DATA` 定位输入数据，
-默认指向原始分析根目录，无需改代码即可切换：
+默认取当前工作目录，无需改代码即可切换：
 
 ```r
 Sys.setenv(GTR_DATA = "/path/to/plateau_defensome")
@@ -62,6 +63,11 @@ MAG、病毒目录以及防御/抗防御注释结果随论文以 Supplementary D
 没有丢弃任何分析（脚本做了重命名与路径可移植化，并补充了旧版缺失的 10 个分析，含 5 个
 审稿意见分析），只删除了重复副本和空白草稿（6 个 shell 脚本各有两份，另有 4 个陈旧或空
 文件）。新旧文件的对应关系见 [docs/03_file_mapping.md](docs/03_file_mapping.md)。
+
+仓库中已不含任何绝对路径、个人主目录、账号名或本地 Windows 目录：所有与运行环境相关的
+位置都由 `LUSTRE_HOME`、`HOME_ROOT`、`DB_ROOT`、`GTR_DATA`、`GTR_GW`、`GTR_DI_DIR`
+环境变量控制（说明见
+[docs/03](docs/03_file_mapping.md#site-specific-paths-and-how-they-are-hidden)）。
 
 ## 引用
 

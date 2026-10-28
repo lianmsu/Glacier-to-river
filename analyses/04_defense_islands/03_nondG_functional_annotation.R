@@ -10,14 +10,15 @@
 # Original script : 20gaoyuan/17DI_nonDG/1DF_DP.R
 # -----------------------------------------------------------------------------
 # Input data and output files are resolved from GTR_DATA, the root of the local
-# analysis directory (its layout mirrors the original working copy). To run the
-# script elsewhere, set the environment variable instead of editing this file:
+# analysis directory (its layout mirrors the original working copy). The default
+# is the current working directory; set the environment variable to point
+# somewhere else instead of editing this file:
 #
 #     Sys.setenv(GTR_DATA = "/path/to/plateau_defensome")
 #
 # =============================================================================
-GTR_DATA <- Sys.getenv("GTR_DATA", unset = "D:/02_pku/01_research/03_plateau_defensome")
-GTR_GW <- Sys.getenv("GTR_GW", unset = "D:/wenjian/research/defensome/groundwater/4VHR_DHR")
+GTR_DATA <- normalizePath(Sys.getenv("GTR_DATA", unset = "."), mustWork = FALSE)
+GTR_GW <- normalizePath(Sys.getenv("GTR_GW", unset = file.path(GTR_DATA, "groundwater")), mustWork = FALSE)
 
 #分析defensepredictor和defensefinder的结果。
 

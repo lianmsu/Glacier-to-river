@@ -5,17 +5,26 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=28
 #SBATCH -o job.genomad_lpw.%j.%N.out
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+DB_ROOT="${DB_ROOT:-${LUSTRE_HOME}/database}"       # reference databases
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 # 开始计时
 start_time=$(date +%s)
 
 
 source activate genomad
-genomad_db=/lustre/home/lipengwei2024phd/database/genomad_db
+genomad_db=${DB_ROOT}/genomad_db
 #########################################################################
-cd /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/20genomad_5467MAGs
-MAG_contig=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/02metagenome_data/merged_5467MAG.fa
-workdir=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/20genomad_5467MAGs
+cd ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/20genomad_5467MAGs
+MAG_contig=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/02metagenome_data/merged_5467MAG.fa
+workdir=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/20genomad_5467MAGs
 
 genomad end-to-end --cleanup ${MAG_contig} ${workdir}/res ${genomad_db}
 

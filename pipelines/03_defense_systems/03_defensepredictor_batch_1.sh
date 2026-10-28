@@ -6,6 +6,14 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=28
 #SBATCH --output=job.DefensePredictor_lpw.%j.%N.out
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 # 开始计时
 start_time=$(date +%s)
@@ -15,8 +23,8 @@ source activate defense_prefictor
 #########################################################################
 
 #########################################################################
-id_file=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/13DefensePredictor/mags_list.txt
-out_path=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/13DefensePredictor/out
+id_file=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/13DefensePredictor/mags_list.txt
+out_path=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/13DefensePredictor/out
 
 # 
 start=1
@@ -27,9 +35,9 @@ ids=$(awk "NR >= $start && NR <= $end" ${id_file})
 
 for i in ${ids}
 do
-gff=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/11prokka_5467MAGs/res/${i}/${i}.gff
-ffn=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/11prokka_5467MAGs/res/${i}/${i}.ffn
-faa=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/11prokka_5467MAGs/res/${i}/${i}.faa
+gff=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/11prokka_5467MAGs/res/${i}/${i}.gff
+ffn=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/11prokka_5467MAGs/res/${i}/${i}.ffn
+faa=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/11prokka_5467MAGs/res/${i}/${i}.faa
 
 defense_predictor --prokka_gff ${gff} --prokka_ffn ${ffn} --prokka_faa ${faa} --device cpu --output ${out_path}/${i}.csv
 

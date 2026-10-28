@@ -6,11 +6,18 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=24
 #SBATCH --mem=250GB
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 source activate fasttree
-cd /home/lipengwei2024phd/03GW/30Acr_tree
+cd ${HOME_ROOT}/03GW/30Acr_tree
 #1、先用muscle把protein序列对齐形成多序列比对（MSA）
-muscle -align /home/lipengwei2024phd/03GW/30Acr_tree/all_Acr.faa -output 503acr_aln.afa
+muscle -align ${HOME_ROOT}/03GW/30Acr_tree/all_Acr.faa -output 503acr_aln.afa
 
 #2、然后用trimal修剪
 trimal -in 503acr_aln.afa -gt 0.5 > 503acr_aln.trim.afa

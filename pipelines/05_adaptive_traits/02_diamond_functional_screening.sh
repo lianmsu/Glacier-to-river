@@ -6,17 +6,25 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=14
 #SBATCH --mail-type=end
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 source activate eggnog
 
-orf="/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/42ARG/5467MAG.prt_defensefinder.faa"
-out=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/42ARG
+orf="${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/42ARG/5467MAG.prt_defensefinder.faa"
+out=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/42ARG
 
 #各种类型功能基因的数据库
-ARGdb=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/42ARG/database/ARG/CARD.dmnd
-MRGdb=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/42ARG/database/MRG/MRG.dmnd
-POPDegdb=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/42ARG/database/mibPOP/mibPOP.dmnd
-VFGdb=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/42ARG/database/VFG/VFDB_core.dmnd
+ARGdb=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/42ARG/database/ARG/CARD.dmnd
+MRGdb=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/42ARG/database/MRG/MRG.dmnd
+POPDegdb=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/42ARG/database/mibPOP/mibPOP.dmnd
+VFGdb=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/42ARG/database/VFG/VFDB_core.dmnd
 
 query=${orf}
 

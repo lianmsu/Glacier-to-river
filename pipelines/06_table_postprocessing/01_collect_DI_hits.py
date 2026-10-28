@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import glob
 import re
@@ -13,7 +15,11 @@ def extract_contig_id(sys_id):
 defense_islands = []
 
 # 获取所有TSV文件的列表
-tsv_files = glob.glob('/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DIs/*.tsv')
+# Directory holding the per-island DefenseFinder TSV files.
+# Set the GTR_DI_DIR environment variable (or edit the default) before running.
+DI_DIR = os.environ.get(
+    "GTR_DI_DIR", "/path/to/project/10DefenseFinder2.0.0_5467MAGs/DIs")
+tsv_files = glob.glob(os.path.join(DI_DIR, "*.tsv"))
 
 # 遍历每个TSV文件
 for tsv_file in tsv_files:

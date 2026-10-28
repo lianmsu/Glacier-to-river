@@ -6,7 +6,14 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=48
 #SBATCH --mem=450GB
-#SBATCH --reservation=lipengwei2024phd_res2
+# #SBATCH --reservation=<your-reservation>   # uncomment if your cluster requires one
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 # 开始计时
 start_time=$(date +%s)
@@ -14,14 +21,14 @@ start_time=$(date +%s)
 
 
 #########################################################################
-cd /home/lipengwei2024phd/05plateau/22integronfinder_5455MAGs
+cd ${HOME_ROOT}/05plateau/22integronfinder_5455MAGs
 source activate integron_finder
 #########################################################################
 
 
-mags="/home/lipengwei2024phd/05plateau/22integronfinder_5455MAGs/all5455MAG_contig.fa"
+mags="${HOME_ROOT}/05plateau/22integronfinder_5455MAGs/all5455MAG_contig.fa"
 
-integron_finder --local-max --func-annot ${mags} --cpu $SLURM_NTASKS --outdir /home/lipengwei2024phd/05plateau/22integronfinder_5455MAGs/res --gbk --pdf
+integron_finder --local-max --func-annot ${mags} --cpu $SLURM_NTASKS --outdir ${HOME_ROOT}/05plateau/22integronfinder_5455MAGs/res --gbk --pdf
 
 
 # 结束计时

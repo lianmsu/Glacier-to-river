@@ -7,14 +7,21 @@
 #SBATCH --ntasks-per-node=48
 #SBATCH --mem=450GB
 #SBATCH --mail-type=end
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 module load prodigal/2.6.3-GCCcore-11.3.0
 # 开始计时
 start_time=$(date +%s)
 
-cd /home/lipengwei2024phd/05plateau/02_5455MAGprodigal
-mags=/home/lipengwei2024phd/05plateau/02_5455MAGprodigal/all5455MAG_contig.fa
-magorf=/home/lipengwei2024phd/05plateau/02_5455MAGprodigal
+cd ${HOME_ROOT}/05plateau/02_5455MAGprodigal
+mags=${HOME_ROOT}/05plateau/02_5455MAGprodigal/all5455MAG_contig.fa
+magorf=${HOME_ROOT}/05plateau/02_5455MAGprodigal
 
 echo "Running Prodigal"
 prodigal -p meta -i "${mags}" \

@@ -6,12 +6,20 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
 #SBATCH --output=job.01antiSMASH_lpw.%j.%N.out
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
-cd /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/43antiSMASH_2
+cd ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/43antiSMASH_2
 mkdir -p ./res
 source activate antiSMASH
 
-id_file=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/13DefensePredictor/mags_list.txt
+id_file=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/13DefensePredictor/mags_list.txt
 start=1
 end=1000
 # 切片
@@ -22,10 +30,10 @@ do
 
 mkdir -p ./res/${i}
 
-antismash /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/02metagenome_data/10_5467MAGs_90_5_10kb/${i}.fa \
+antismash ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/02metagenome_data/10_5467MAGs_90_5_10kb/${i}.fa \
 	--taxon bacteria \
 	--cpus 40 \
-	--databases /lustre/home/lipengwei2024phd/software/miniforge3/envs/antiSMASH/lib/python3.11/site-packages/antismash/databases \
+	--databases ${LUSTRE_HOME}/software/miniforge3/envs/antiSMASH/lib/python3.11/site-packages/antismash/databases \
 	--output-dir ./res/${i} \
 	--allow-long-headers \
 	--genefinding-tool prodigal-m

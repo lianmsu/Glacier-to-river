@@ -6,6 +6,14 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=14
 #SBATCH --mail-type=end
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 # 记录开始时间（秒级时间戳）
 start_time=$(date +%s)
@@ -13,8 +21,8 @@ start_time=$(date +%s)
 #进入checkv并导入数据库目录
 source activate BACPHLIP
 
-virus_contig=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau_phage/00virus_contigs/cdhit_before/virus_select_all_medium-10kb_high_complete.fa
-workdir=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau_phage/03BACPHLIP
+virus_contig=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau_phage/00virus_contigs/cdhit_before/virus_select_all_medium-10kb_high_complete.fa
+workdir=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau_phage/03BACPHLIP
 
 cd ${workdir}
 bacphlip -i ${virus_contig} --multi_fasta

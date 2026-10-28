@@ -1,19 +1,27 @@
 #!/bin/bash
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 ###########################2##########################################
 
 #1. 生成所有DIs所在的contig的所有orf id
-python3 /home/lipengwei2024phd/03GW/02ANI99MAGs_defense/DIs_unknowngene/01all_DI_orf.py
+python3 ${HOME_ROOT}/03GW/02ANI99MAGs_defense/DIs_unknowngene/01all_DI_orf.py
 #2. 提取所有DI对应的DGs的id
-cat /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes/5455MAG_defense_islands.txt | cut -f7 | grep -v ":" | grep -v '^ *$' | tr ',' '\n' | sort | uniq > 02DI_contig_DGs.txt
+cat ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes/5455MAG_defense_islands.txt | cut -f7 | grep -v ":" | grep -v '^ *$' | tr ',' '\n' | sort | uniq > 02DI_contig_DGs.txt
 #注意：defensefinder在识别防御系统时会把一个DGs重复算到不同的DSs
 
 ##################################3##################################
 
 #1. 生成所有DIs所在的contig的所有orf id
-python3 /home/lipengwei2024phd/03GW/02ANI99MAGs_defense/DIs_unknowngene/01all_DI_orf.py
+python3 ${HOME_ROOT}/03GW/02ANI99MAGs_defense/DIs_unknowngene/01all_DI_orf.py
 
 #2. 提取所有DI对应的DGs的id
-cat /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes/5455MAG_defense_islands.txt | cut -f7 | grep -v ":" | grep -v '^ *$' | tr ',' '\n' | sort | uniq > 02DI_contig_DGs.txt
+cat ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes/5455MAG_defense_islands.txt | cut -f7 | grep -v ":" | grep -v '^ *$' | tr ',' '\n' | sort | uniq > 02DI_contig_DGs.txt
 #注意：defensefinder在识别防御系统时会把一个DGs重复算到不同的DSs
 
 #3. 从01all_DIorf.txt中删除与02DI_contig_DGs.txt共有的行
@@ -29,14 +37,14 @@ comm -23 03all_DIorf_sorted.txt 02DI_contig_DGs.txt > 03filtered_01all_DIorf.txt
 #grep -v -Ff 03common_lines.txt 01all_DIorf.txt > 03all_DIorf_filtered.txt
 
 #4. 根据03all_DIorf_filtered.txt提取orf序列
-seqkit grep -f 03filtered_01all_DIorf.txt /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/res1/merged_5467MAG.prt_defensefinder.prt > 04non_DG_orf.faa
+seqkit grep -f 03filtered_01all_DIorf.txt ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/res1/merged_5467MAG.prt_defensefinder.prt > 04non_DG_orf.faa
 
 #根据文件03filtered_01all_DIorf.txt提取对应的gff记录
 #!/bin/bash
-cd /lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes
+cd ${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes
 # 输入文件路径
-gene_list="/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes/03filtered_01all_DIorf.txt"
-gff_file="/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/res1/merged_5467MAG.prt_defensefinder.gff"
+gene_list="${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/DI_othergenes/03filtered_01all_DIorf.txt"
+gff_file="${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs/res1/merged_5467MAG.prt_defensefinder.gff"
 output_file="filtered_DI_genes.gff"
 
 # 步骤1: 创建基因ID列表的临时文件（去除可能的空行）

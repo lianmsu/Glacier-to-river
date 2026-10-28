@@ -10,13 +10,14 @@
 # Original script : 20gaoyuan/11_5455mag_tree/1_MAG_tree_annotation.R
 # -----------------------------------------------------------------------------
 # Input data and output files are resolved from GTR_DATA, the root of the local
-# analysis directory (its layout mirrors the original working copy). To run the
-# script elsewhere, set the environment variable instead of editing this file:
+# analysis directory (its layout mirrors the original working copy). The default
+# is the current working directory; set the environment variable to point
+# somewhere else instead of editing this file:
 #
 #     Sys.setenv(GTR_DATA = "/path/to/plateau_defensome")
 #
 # =============================================================================
-GTR_DATA <- Sys.getenv("GTR_DATA", unset = "D:/02_pku/01_research/03_plateau_defensome")
+GTR_DATA <- normalizePath(Sys.getenv("GTR_DATA", unset = "."), mustWork = FALSE)
 
 setwd(file.path(GTR_DATA, "20gaoyuan/11_5455mag_tree"))
 
@@ -27,7 +28,7 @@ setwd(file.path(GTR_DATA, "20gaoyuan/11_5455mag_tree"))
 
 #参考学习https://tongzhou2017.github.io/itol.toolkit/articles/Get_Start.html
 rm(list = ls())
-GTR_DATA <- Sys.getenv("GTR_DATA", unset = "D:/02_pku/01_research/03_plateau_defensome")
+GTR_DATA <- normalizePath(Sys.getenv("GTR_DATA", unset = "."), mustWork = FALSE)
 library(itol.toolkit)
 library(data.table) # 用于元数据文件读取
 library(ape) # 用于树文件读写

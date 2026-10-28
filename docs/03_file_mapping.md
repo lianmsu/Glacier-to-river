@@ -6,14 +6,17 @@ location in the previous (flat) version of this GitHub repository.
 `-` means the script was not part of the previous repository version.
 
 The scripts were **moved, renamed and made path-portable**; the statistical and
-bioinformatic logic is unchanged. The only code edits in the R scripts are:
+bioinformatic logic is unchanged. The code edits are:
 
-1. the hard-coded `setwd("D:/...")` and absolute Windows paths were replaced by
-   `file.path(GTR_DATA, "<relative path>")`, where `GTR_DATA` defaults to the
-   original analysis root and can be overridden with an environment variable;
+1. in the R scripts, the hard-coded `setwd("D:/...")` and absolute Windows paths were
+   replaced by `file.path(GTR_DATA, "<relative path>")`; `GTR_DATA` is read from the
+   environment and defaults to the current working directory;
 2. the `.RData` artefacts written/read between scripts were renamed together
    with the scripts (`1_MGE_combination.RData` -> `01_MGE_cargo_and_defense_density.RData`, ...);
-3. a short header (purpose, manuscript figure, outputs, original path) was added.
+3. in the pipeline scripts, the site-specific absolute paths were replaced by
+   `LUSTRE_HOME` / `HOME_ROOT` / `DB_ROOT` variables (see below);
+4. a short header (purpose, manuscript figure, outputs, original path) was added to
+   every R script.
 
 
 ## Upstream pipelines
@@ -101,10 +104,38 @@ bioinformatic logic is unchanged. The only code edits in the R scripts are:
 | `20gaoyuan/submission/NC/code/01genomad_lpw.sh`, `01prodigal.sh`, `01prokka_lpw.sh`, `1minced.sh`, `2fasttree.sh`, `3blastn_allphage_plasmid.sh` | byte-identical duplicates of the `20gaoyuan/submission/code_availability/` copies, which are the ones kept |
 | `92_codes/3_MAG_tax.R` | byte-identical duplicate of `20gaoyuan/01MAG_info/3_MAG_tax.R` |
 
-## Paths that are still site-specific
+## Site-specific paths and how they are hidden
 
-The cluster job scripts under `pipelines/` are reproduced verbatim: their
-`/lustre/home/lipengwei2024phd/...` and `/home/lipengwei2024phd/...` paths are the
-directories used for the production runs and have to be adapted to your own
-cluster before submission. See [`05_software_and_environment.md`](05_software_and_environment.md).
+The absolute paths used during the production runs (user home directories, local
+Windows analysis folders, Slurm reservation names) have been removed from every file.
+They are replaced by variables, so nothing about the local set-up is published and the
+same script can be re-pointed without touching the logic:
+
+| Variable | Replaces | Used in |
+| --- | --- | --- |
+| `LUSTRE_HOME` | the home directory on the large-storage filesystem | `pipelines/*` |
+| `HOME_ROOT` | the home directory on the login-node filesystem | `pipelines/*` |
+| `DB_ROOT` | the reference-database directory (`${LUSTRE_HOME}/database` by default) | `pipelines/*` |
+| `GTR_DATA` | the analysis data root | every script in `analyses/` |
+| `GTR_GW` | the companion groundwater/aquifer data directory | `analyses/04_defense_islands/03_*`, `analyses/07_cross_study_comparison/*` |
+| `GTR_DI_DIR` | the directory of the per-island DefenseFinder tables | `pipelines/06_table_postprocessing/01_collect_DI_hits.py` |
+
+Each pipeline script declares only the variables it uses, in a
+`# Site-specific settings` block right below its `#SBATCH` header, with
+`/path/to/...` placeholders as defaults. Set them once and export them:
+
+```bash
+export LUSTRE_HOME=/your/lustre/home
+export HOME_ROOT=/your/home
+export DB_ROOT=/your/databases
+sbatch pipelines/03_defense_systems/02_defensefinder_v2.sh
+```
+
+`#SBATCH --reservation=` directives were commented out because the reservation name
+contains the account name; uncomment and set your own if your cluster needs one.
+
+The `Original working-copy path` column above keeps the folder names of the data
+directory (`20gaoyuan/...`, `93_NC_comments/...`) because they are needed to map the
+scripts to the data layout. They are relative names only, with no user or machine
+information.
 

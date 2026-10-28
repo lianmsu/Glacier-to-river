@@ -4,12 +4,32 @@
 
 All `pipelines/` scripts were submitted with **Slurm** (`#SBATCH` headers). The production
 runs used two queues, `cpu` and `fat`, on a shared cluster; job names, memory requests and
-thread counts are kept in the scripts as a record of the actual runs. To re-run them
-elsewhere, edit at least:
+thread counts are kept in the scripts as a record of the actual runs.
+
+The site-specific absolute paths of those runs have been replaced by variables, so each
+script reads them from its environment (or from the `# Site-specific settings` block just
+below the `#SBATCH` header):
+
+| Variable | Meaning | Default in the script |
+| --- | --- | --- |
+| `LUSTRE_HOME` | home directory on the large-storage filesystem (project directories) | `/path/to/lustre/home` |
+| `HOME_ROOT` | home directory on the login-node filesystem | `/path/to/home` |
+| `DB_ROOT` | reference databases (geNomad, CheckV, CARD, ...) | `${LUSTRE_HOME}/database` |
+| `GTR_DI_DIR` | directory with the per-island DefenseFinder TSV files | `/path/to/project/10DefenseFinder2.0.0_5467MAGs/DIs` |
+
+To re-run a script elsewhere, export the variables and adapt:
 
 * `#SBATCH --partition=...` (queue name),
-* the absolute input/output paths (`/lustre/home/...`, `/home/...`),
-* `source activate <env>` — replace with `conda activate <env>` on modern conda.
+* `source activate <env>` — replace with `conda activate <env>` on modern conda,
+* `# #SBATCH --reservation=...` — commented out in the repository (the reservation name
+  of the production account is site-specific); uncomment and set your own if needed.
+
+```bash
+export LUSTRE_HOME=/your/lustre/home
+export HOME_ROOT=/your/home
+export DB_ROOT=/your/databases
+sbatch pipelines/01_genome_annotation/05_gtdbtk_classify.sh
+```
 
 Python is `python3` with `pandas` only; the table post-processing scripts
 (`pipelines/06_table_postprocessing/`) are plain scripts, no scheduler required.

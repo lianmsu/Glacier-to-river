@@ -62,7 +62,7 @@ repository:
 # Manuscript      : Fig. 3a, Fig. 3e, Fig. S2
 # Main outputs    : 2_genome_Region.pdf, ...
 # Original script : 20gaoyuan/10Defensefinder/2defensefinder_res_Glacier_Plateau_Plain.R
-GTR_DATA <- Sys.getenv("GTR_DATA", unset = "D:/02_pku/01_research/03_plateau_defensome")
+GTR_DATA <- normalizePath(Sys.getenv("GTR_DATA", unset = "."), mustWork = FALSE)
 ```
 
 ## `docs/`

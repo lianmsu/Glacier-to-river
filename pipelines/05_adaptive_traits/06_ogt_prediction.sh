@@ -6,20 +6,27 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=48
 #SBATCH --mem=450GB
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 ## this pipeline is used to predict CDS and annotate functions of them.
 
 ####################### Parameters ########################
 # input, output and bin path
-input=/home/lipengwei2024phd/05plateau/015455MAG_gtdb/5455MAG/* #input fasta file
-out=/home/lipengwei2024phd/05plateau/30OGT_pre/res1 #output dir
+input=${HOME_ROOT}/05plateau/015455MAG_gtdb/5455MAG/* #input fasta file
+out=${HOME_ROOT}/05plateau/30OGT_pre/res1 #output dir
 
 mkdir -p ${out}
 cd ${out}
 #OGT_prediction
-external_tools=/home/lipengwei2024phd/software/OGT_prediction/prediction/external_tools.txt #Create a file called external_tools.txt listing bedtools, tRNAscan-SE, barrnap, and prodigal tab separated from the absolute path for each executable.
-ogt=/home/lipengwei2024phd/software/OGT_prediction/prediction/prediction_pipeline.py #prediction_pipeline.py
-model=/home/lipengwei2024phd/software/OGT_prediction/data/prediction_demo/regression_models/ # OGT models path
+external_tools=${HOME_ROOT}/software/OGT_prediction/prediction/external_tools.txt #Create a file called external_tools.txt listing bedtools, tRNAscan-SE, barrnap, and prodigal tab separated from the absolute path for each executable.
+ogt=${HOME_ROOT}/software/OGT_prediction/prediction/prediction_pipeline.py #prediction_pipeline.py
+model=${HOME_ROOT}/software/OGT_prediction/data/prediction_demo/regression_models/ # OGT models path
 
 source activate OGT_prediction
 
@@ -33,7 +40,7 @@ do
 #prefix="B6_bin.5" #prefix of genome
 prefix=$(basename ${i} .fa)
 
-taxonomy=$(awk -F"\t" -v prefix="$prefix" '{if($1==prefix) print $2}' /home/lipengwei2024phd/05plateau/30OGT_pre/gtdb_tax.tsv)
+taxonomy=$(awk -F"\t" -v prefix="$prefix" '{if($1==prefix) print $2}' ${HOME_ROOT}/05plateau/30OGT_pre/gtdb_tax.tsv)
 
 ######################### OGT_Main ############################
 real_out=$(realpath "$out")

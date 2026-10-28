@@ -5,6 +5,14 @@
 #SBATCH --get-user-env
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=20
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+LUSTRE_HOME="${LUSTRE_HOME:-/path/to/lustre/home}"   # large-storage home (project + databases)
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 
 # 开始计时
@@ -15,8 +23,8 @@ source activate defensefinder
 
 #########################################################################
 
-MAGs_path=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/02metagenome_data/merged_5467MAG.fa
-defense_workdir=/lustre/home/lipengwei2024phd/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs
+MAGs_path=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/02metagenome_data/merged_5467MAG.fa
+defense_workdir=${LUSTRE_HOME}/04Qinghai_Tibet_Plateau/10DefenseFinder2.0.0_5467MAGs
 output_dir="${defense_workdir}/res1"
 
 mkdir -p ${output_dir}

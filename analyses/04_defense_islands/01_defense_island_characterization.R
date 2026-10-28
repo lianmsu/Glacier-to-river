@@ -10,13 +10,14 @@
 # Original script : 20gaoyuan/14_DIs/1_DIs.R
 # -----------------------------------------------------------------------------
 # Input data and output files are resolved from GTR_DATA, the root of the local
-# analysis directory (its layout mirrors the original working copy). To run the
-# script elsewhere, set the environment variable instead of editing this file:
+# analysis directory (its layout mirrors the original working copy). The default
+# is the current working directory; set the environment variable to point
+# somewhere else instead of editing this file:
 #
 #     Sys.setenv(GTR_DATA = "/path/to/plateau_defensome")
 #
 # =============================================================================
-GTR_DATA <- Sys.getenv("GTR_DATA", unset = "D:/02_pku/01_research/03_plateau_defensome")
+GTR_DATA <- normalizePath(Sys.getenv("GTR_DATA", unset = "."), mustWork = FALSE)
 
 setwd(file.path(GTR_DATA, "20gaoyuan/14_DIs"))
 

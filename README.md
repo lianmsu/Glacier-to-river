@@ -53,14 +53,15 @@ in the working copy.
 
 **1. Upstream pipelines.** The scripts under `pipelines/` are the SLURM job scripts used
 for the production runs, wrapped per software (`#SBATCH` headers included). They are
-reproduced as executed: adapt the absolute paths and the partition/queue names to your
-own cluster, create the conda environments listed in
-[docs/05](docs/05_software_and_environment.md), and submit in the order given in
-[docs/01](docs/01_pipeline_overview.md).
+reproduced as executed, except that the site-specific absolute paths were replaced by
+variables: set `LUSTRE_HOME`, `HOME_ROOT` and `DB_ROOT` (see the
+`# Site-specific settings` block of each script) and adapt the queue names, then submit in
+the order given in [docs/01](docs/01_pipeline_overview.md), using the conda environments
+listed in [docs/05](docs/05_software_and_environment.md).
 
 **2. R analyses.** The scripts under `analyses/` require R >= 4.2 and the packages listed
 in [docs/05](docs/05_software_and_environment.md). Input tables are read relative to
-`GTR_DATA`, which defaults to the original analysis root and can be overridden without
+`GTR_DATA`, which defaults to the current working directory and can be overridden without
 editing any script:
 
 ```r
@@ -90,6 +91,11 @@ from the old version were added (including the five peer-review analyses), and o
 duplicates and empty drafts were removed (six shell scripts existed twice, plus four
 obsolete or empty files). [docs/03_file_mapping.md](docs/03_file_mapping.md) maps every
 old file to its new location.
+
+No absolute path, user home directory, account name or Windows analysis folder remains in
+the repository: all site-specific locations are handled by the `LUSTRE_HOME`,
+`HOME_ROOT`, `DB_ROOT`, `GTR_DATA`, `GTR_GW` and `GTR_DI_DIR` environment variables
+(see [docs/03](docs/03_file_mapping.md#site-specific-paths-and-how-they-are-hidden)).
 
 ## Citation
 

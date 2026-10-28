@@ -6,7 +6,14 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=24
 #SBATCH --mem=400GB
-#SBATCH --reservation=lipengwei2024phd_res2
+# #SBATCH --reservation=<your-reservation>   # uncomment if your cluster requires one
+# ---------------------------------------------------------------------------
+# Site-specific settings -- set these (or export them) before submitting the job.
+# The absolute paths of the production runs have been replaced by these
+# variables, so the script contains no site-specific path any more.
+# ---------------------------------------------------------------------------
+HOME_ROOT="${HOME_ROOT:-/path/to/home}"             # login-node home
+# ---------------------------------------------------------------------------
 
 # 开始计时
 start_time=$(date +%s)
@@ -16,11 +23,11 @@ source activate icefinder
 # Date: 17/4/2024
 #########################################################################
 
-#cp -r /home/lipengwei2024phd/05plateau/21icefinder_5455MAGs/ICEfinder2_moban /home/lipengwei2024phd/05plateau/21icefinder_5455MAGs/ICEfinder2_1000
-ICE_workdir=/home/lipengwei2024phd/05plateau/21icefinder_5455MAGs/ICEfinder2_1000
+#cp -r ${HOME_ROOT}/05plateau/21icefinder_5455MAGs/ICEfinder2_moban ${HOME_ROOT}/05plateau/21icefinder_5455MAGs/ICEfinder2_1000
+ICE_workdir=${HOME_ROOT}/05plateau/21icefinder_5455MAGs/ICEfinder2_1000
 cd ${ICE_workdir}
-id_file=/home/lipengwei2024phd/05plateau/21icefinder_5455MAGs/5455MAG.id
-MAG_dir=/home/lipengwei2024phd/05plateau/015455MAG_gtdb/5455MAG
+id_file=${HOME_ROOT}/05plateau/21icefinder_5455MAGs/5455MAG.id
+MAG_dir=${HOME_ROOT}/05plateau/015455MAG_gtdb/5455MAG
 
 start=1
 end=1000
