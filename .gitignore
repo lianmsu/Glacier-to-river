@@ -1,0 +1,22 @@
+# R session artefacts
+.RData
+.Rhistory
+.Rapp.history
+.Rproj.user/
+*.Rproj
+
+# Slurm / cluster logs
+job.*.out
+job-*.out
+slurm-*.out
+*.err
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
