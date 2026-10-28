@@ -95,10 +95,11 @@ bioinformatic logic is unchanged. The only code edits in the R scripts are:
 | File | Why |
 | --- | --- |
 | `20gaoyuan/12_5455MAG_MGEs/2_MGE_DS.R` | empty stub (4 lines, `read.delim2("")`), never run |
-| `20gaoyuan/16DefensePredictor/1DF_DP(1).R` | older copy of `1DF_DP.R`, superseded by the refactored version |
-| `20gaoyuan/16DefensePredictor/03DI_nonDG(1).sh` | byte-identical duplicate of `03DI_nonDG.sh` |
+| `20gaoyuan/16DefensePredictor/1DF_DP(1).R` | earlier copy of `1DF_DP.R`; the refactored version was kept |
+| `20gaoyuan/16DefensePredictor/03DI_nonDG(1).sh` | byte-identical duplicate of `20gaoyuan/16DefensePredictor/03DI_nonDG.sh` |
+| `20gaoyuan/16DefensePredictor/03DI_nonDG.sh` | parallel copy of the DI non-defense-gene workflow written for the **companion groundwater project** (different data root, column 6 instead of 7, no GFF extraction). The version used for this study (117 lines: column 7 plus the GFF filtering step) is the one split into `pipelines/06_table_postprocessing/04_DI_nondG_orf_ids.py` and `05_DI_nondG_filter.sh`. |
+| `20gaoyuan/submission/NC/code/01genomad_lpw.sh`, `01prodigal.sh`, `01prokka_lpw.sh`, `1minced.sh`, `2fasttree.sh`, `3blastn_allphage_plasmid.sh` | byte-identical duplicates of the `20gaoyuan/submission/code_availability/` copies, which are the ones kept |
 | `92_codes/3_MAG_tax.R` | byte-identical duplicate of `20gaoyuan/01MAG_info/3_MAG_tax.R` |
-| `20gaoyuan/submission/code_availability/*` vs `20gaoyuan/submission/NC/code/*` | six scripts existed twice (identical apart from line endings); only one copy is kept |
 
 ## Paths that are still site-specific
 

@@ -84,9 +84,11 @@ manuscript.
 ## Note on the previous repository layout
 
 An earlier version of this repository was a flat list of scripts (`*.sh`, `*.py`,
-`R_code/*.R`). It has been reorganized into the layered structure above; no analysis was
-dropped, but the scripts were renamed and made path-portable, and four duplicate or empty
-scratch files were removed. [docs/03_file_mapping.md](docs/03_file_mapping.md) maps every
+`R_code/*.R`). It has been reorganized into the layered structure above. No analysis was
+dropped: the scripts were renamed and made path-portable, 10 analyses that were missing
+from the old version were added (including the five peer-review analyses), and only stale
+duplicates and empty drafts were removed (six shell scripts existed twice, plus four
+obsolete or empty files). [docs/03_file_mapping.md](docs/03_file_mapping.md) maps every
 old file to its new location.
 
 ## Citation
